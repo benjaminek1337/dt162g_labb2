@@ -9,7 +9,7 @@ const app = express();
 // Skapa statisk sökväg
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use("/courses", coursesRouter);
+app.use("/api", coursesRouter);
     
 // Port för anslutning
 const port = process.env.PORT || 3000;

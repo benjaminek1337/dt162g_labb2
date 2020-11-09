@@ -4,8 +4,8 @@ const fs = require("fs");
 const path = require("path");
 
 
-router.get("/", (req, res) => {
-    let rawCourses = fs.readFileSync(path.resolve(__dirname + "/../my-courses.json"));
+router.get("/courses", (req, res) => {
+    let rawCourses = fs.readFileSync(path.resolve(__dirname + "/../courses.json"));
     let courses = JSON.parse(rawCourses);
     res.send(courses);
 });
