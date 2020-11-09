@@ -1,84 +1,8 @@
 ﻿{
 "information": {
     "heading": "Kurser",
-    "text": "Följande kurser finns i vårt kursutbud:",
-    "myCoursesHeading":"Mina kurser",
-    "myCoursesText":"Dessa kurser läser jag, eller har läst:"
+    "text": "Följande kurser finns i vårt kursutbud:"
   },
-  "myCourses": [
-    {
-      "courseCode": "DT162G",
-      "completed": false
-    },
-    {
-      "courseCode":"IK006G",
-      "completed":true
-    },
-    {
-      "courseCode":"IK021G",
-      "completed":true
-    },
-    {
-      "courseCode":"IK101G",
-      "completed":true
-    },
-    {
-      "courseCode":"IK073G",
-      "completed":true
-    },
-    {
-      "courseCode":"IK080G",
-      "completed":true
-    },
-    {
-      "courseCode":"IK110G",
-      "completed":true
-    },
-    {
-      "courseCode":"IK086G",
-      "completed":true
-    },
-    {
-      "courseCode":"DT158G",
-      "completed":true
-    },
-    {
-      "courseCode":"DT179G",
-      "completed":false
-    },
-    {
-      "courseCode":"IK038G",
-      "completed":true
-    },
-    {
-      "courseCode":"DT146G",
-      "completed":true
-    },
-    {
-      "courseCode":"IK102G",
-      "completed":true
-    },
-    {
-      "courseCode":"IK106G",
-      "completed":true
-    },
-    {
-      "courseCode":"IK098G",
-      "completed":true
-    },
-    {
-      "courseCode":"IK108G",
-      "completed":true
-    },
-    {
-      "courseCode":"IK109G",
-      "completed":true
-    },
-    {
-      "courseCode":"IK093G",
-      "completed":true
-    }
-  ],
   "courses": [
     {
       "courseCode": "AK001G",

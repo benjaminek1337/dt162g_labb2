@@ -9,6 +9,10 @@ app.use(express.static(path.join(__dirname, 'public')));
     
 // Port för anslutning
 const port = process.env.PORT || 3000;
+
+app.get("/api/test", (req, res) => {
+    res.send({"message":"lyckat"});
+});
     
 // Starta servern
 app.listen(port, () => {
