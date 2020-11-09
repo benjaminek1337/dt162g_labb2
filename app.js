@@ -1,6 +1,5 @@
 const express = require("express");
 const path = require("path");
-const port = process.env.PORT || 3000;
     
 // Skapa en instans av express
 const app = express();
@@ -9,7 +8,7 @@ const app = express();
 app.use(express.static(path.join(__dirname, 'public')));
     
 // Port för anslutning
-const port = 3000;
+const port = process.env.PORT || 3000;
     
 // Starta servern
 app.listen(port, () => {
