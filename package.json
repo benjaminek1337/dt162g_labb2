@@ -1,0 +1,26 @@
+{
+  "name": "my-courses-studentid",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "start":"node app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/benjaminek1337/dt162g_labb2.git"
+  },
+  "author": "Benjamin Ek <beek1800@student.miun.se>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/benjaminek1337/dt162g_labb2/issues"
+  },
+  "homepage": "https://github.com/benjaminek1337/dt162g_labb2#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "engines": {
+    "node": "15.1.0"
+  } 
+}
