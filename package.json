@@ -4,7 +4,7 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "start":"node app.js",
+    "start": "nodemon app.js -e ejs,js,css,html,jpg,png,scss",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -18,9 +18,11 @@
   },
   "homepage": "https://github.com/benjaminek1337/dt162g_labb2#readme",
   "dependencies": {
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "livereload": "^0.9.1",
+    "nodemon": "^2.0.6"
   },
   "engines": {
     "node": "15.1.0"
-  } 
+  }
 }

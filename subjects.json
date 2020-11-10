@@ -29,13 +29,6 @@
       "language": "SV"
     },
     {
-      "subjectCode": "BIA",
-      "subject": "Biologi",
-      "preamble": null,
-      "bodyText": null,
-      "language": null
-    },
-    {
       "subjectCode": "BJO",
       "subject": "Bildjournalistik",
       "preamble": "Bildjournalistik är ett ämne där du får lära dig använda bilden för att kommunicera.",
@@ -111,13 +104,6 @@
       "preamble": "Med folkhälsa avses det allmänna hälsotillståndet hos befolkningen. Riksdagen har beslutat om nationella folkhälsomål som ska vara vägledande för folkhälsoarbetet i Sverige. För att kunna omsätta de nationella folkhälsomålen i praktiken kommer det att behövas en bred folkhälsokompetens inom olika sektorer och yrkesgrupper.",
       "bodyText": "Folkhälsovetenskap är ett tvärvetenskapligt område som studerar samhällsstrukturens, arbetslivets, miljöns och vårdsystemets betydelse för befolkningens hälsa, det som kallas hälsans bestämningsfaktorer. Genom att se mönster i ohälsa och sjuklighet mellan olika befolkningsgrupper, exempelvis sociala grupper, åldersgrupper och kön, ökar förståelsen för orsakerna och därmed möjligheterna för att främja hälsa och att förebygga ohälsa. Åtgärder kan vara inriktade mot att skapa gynnsamma förutsättningar i den sociala och fysiska miljön, samt rikta sig till individer och grupper för att öka medvetenheten om sambanden mellan levnadsvanor och hälsa. Folkhälsovetenskapen studerar även hälso- och sjukvårdens effektivitet, olika hälsopolitiska åtgärders effekter samt folkhälsoarbetets inverkan på samhället och olika befolkningsgrupper.",
       "language": "SV"
-    },
-    {
-      "subjectCode": "FHA",
-      "subject": "Folkhälsovetenskap",
-      "preamble": null,
-      "bodyText": null,
-      "language": null
     },
     {
       "subjectCode": "FRA",
@@ -372,6 +358,13 @@
       "language": "SV"
     },
     {
+      "subjectCode": "NVS",
+      "subject": "Naturvetenskap",
+      "preamble": null,
+      "bodyText": null,
+      "language": null
+    },
+	{
       "subjectCode": "OMA",
       "subject": "Omvårdnad",
       "preamble": "Nursing is an academic subject and the main field of study in the Nursing Programme and in the Mental Health Programme. The subject is built on research and experience as well as on an overall view of man.",
@@ -477,6 +470,13 @@
       "language": null
     },
     {
+      "subjectCode": "TFY",
+      "subject": "Teknisk fysik",
+      "preamble": null,
+      "bodyText": null,
+      "language": null
+    },
+	{
       "subjectCode": "TKU",
       "subject": "Teknikkunskap",
       "preamble": "Begreppet teknik betecknar såväl en specifik mänsklig aktivitet och kunskap som ett skolämne. I kurserna under denna rubrik behandlas frågor som rör teknikens identitet och relation till andra kunskapsområden utifrån begreppets båda betydelser.",

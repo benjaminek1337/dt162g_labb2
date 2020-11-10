@@ -1,7 +1,6 @@
 const express = require("express");
 const path = require("path");
-const coursesRouter = require("./routes/courses")
-const fs = require("fs");
+const apiRouter = require("./routes/api.js");
     
 // Skapa en instans av express
 const app = express();
@@ -9,16 +8,11 @@ const app = express();
 // Skapa statisk sökväg
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use("/api", coursesRouter);
+// Använd router
+app.use("/api", apiRouter);
     
 // Port för anslutning
 const port = process.env.PORT || 3000;
-
-app.get("/api/test", (req, res) => {
-    let rawCourses = fs.readFileSync("./my-courses.json");
-    let courses = JSON.parse(rawCourses);
-    res.send(courses);
-});
     
 // Starta servern
 app.listen(port, () => {
