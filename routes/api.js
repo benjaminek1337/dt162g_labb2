@@ -1,17 +1,8 @@
 const express = require("express");
 const router = express.Router();
-const fs = require("fs");
-const path = require("path");
 const courses = require("../courses.json");
 const myCourses = require("../my-courses.json");
 const subjects = require("../subjects.json");
-
-// const rawCourses = fs.readFileSync(path.resolve(__dirname + "/../courses.json"));
-// let courses = JSON.parse(rawCourses).courses;
-// const rawSubjects = fs.readFileSync(path.resolve(__dirname + "/../subjects.json"));
-// let subjects = JSON.parse(rawSubjects).subjects;
-// const rawMyCourses = fs.readFileSync(path.resolve(__dirname + "/../my-courses.json"));
-// let myCourses = JSON.parse(rawMyCourses).myCourses;
 
 function getSubjectBySubjectCode(code){
     return subjects.subjects.find(s => s.subjectCode == code);
