@@ -30,10 +30,10 @@
     <header>
         <!-- Direktivet (data-)ng-bind kommer att sätta innerHTML för ett element till ett det värde
         som finns i det $scope som aktuell controller tillhandahåller. -->
-        <h1 class="center" data-ng-bind="information.myCoursesHeading"></h1>
+        <h1 class="center">Mina kurser</h1>
 
         <!-- Ett annat sätt att "binda" data från $scope är att använda {{ }} -->
-        <p>{{ information.myCoursesText }}</p>
+        <p>De kurser jag läst, eller läser</p>
 
         <nav>
             <a href="./index.html">Tillbaka till alla kurser</a>
@@ -82,7 +82,7 @@
     <footer>
         <p class="center">
             Denna laboration läser data från filen
-            <a href="courses.json" target="_blank">courses.json.</a>
+            <a href="/api/my/courses" target="_blank">myCourses.json.</a>
         </p>
     </footer>
 </body>

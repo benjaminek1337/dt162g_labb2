@@ -7,16 +7,15 @@ angular.module('myCoursesApp', []) // Läs 1 nedan
             .then(function successCallback(response) { // Läs 4 nedan
                 // this callback will be called asynchronously
                 // when the response is available
-
+                
                 // För att underlätta användningen av data i response lagrar vi det i en variabel
                 const data = response.data;
-
+                console.log(data);
                 // Läs 5 nedan
-                $scope.information = data.information;
-                $scope.courses = data.courses;
+                $scope.courses = data;
                 //$scope.myCourses = data.myCourses;
                 $scope.getCourseName = (courseCode) => {
-                    return data.courses.find(c => c.courseCode === courseCode).name;
+                    return data.find(c => c.courseCode === courseCode).name;
                 }
             },
                 function errorCallback(response) { // Läs 6 nedan
