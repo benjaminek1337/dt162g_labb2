@@ -7,7 +7,7 @@ angular.module('myCoursesApp', []) // Läs 1 nedan
             .then(function successCallback(response) { // Läs 4 nedan
                 // this callback will be called asynchronously
                 // when the response is available
-                
+            
                 // För att underlätta användningen av data i response lagrar vi det i en variabel
                 const data = response.data;
 
