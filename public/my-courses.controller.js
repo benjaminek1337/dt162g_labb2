@@ -1,20 +1,20 @@
 // AngularJS-kod som vi går igenom mer i detalj i sektion 4. 
 // Fokusera på $scope i funktionen successCallBack i den här laborationen.
-
+console.log(window.location.pathname);
 angular.module('myCoursesApp', []) // Läs 1 nedan
     .controller('MyCoursesController', function MyCourseController($scope, $http) { // Läs 2 nedan
-        $http.get("courses.json") // Läs 3 nedan
+        $http.get("/api/courses") // Läs 3 nedan
             .then(function successCallback(response) { // Läs 4 nedan
                 // this callback will be called asynchronously
                 // when the response is available
-
+                
                 // För att underlätta användningen av data i response lagrar vi det i en variabel
                 const data = response.data;
 
                 // Läs 5 nedan
                 $scope.information = data.information;
                 $scope.courses = data.courses;
-                $scope.myCourses = data.myCourses;
+                //$scope.myCourses = data.myCourses;
                 $scope.getCourseName = (courseCode) => {
                     return data.courses.find(c => c.courseCode === courseCode).name;
                 }
