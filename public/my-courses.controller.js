@@ -3,7 +3,7 @@
 console.log(window.location.pathname);
 angular.module('myCoursesApp', []) // Läs 1 nedan
     .controller('MyCoursesController', function MyCourseController($scope, $http) { // Läs 2 nedan
-        $http.get("/api/courses") // Läs 3 nedan
+        $http.get("/api/my/courses") // Läs 3 nedan
             .then(function successCallback(response) { // Läs 4 nedan
                 // this callback will be called asynchronously
                 // when the response is available
@@ -13,8 +13,8 @@ angular.module('myCoursesApp', []) // Läs 1 nedan
 
                 // Läs 5 nedan
                 $scope.information = data.information;
-                $scope.courses = data.courses;
-                //$scope.myCourses = data.myCourses;
+                // $scope.courses = data.courses;
+                $scope.myCourses = data.myCourses;
                 $scope.getCourseName = (courseCode) => {
                     return data.courses.find(c => c.courseCode === courseCode).name;
                 }
