@@ -1,9 +1,14 @@
 const express = require("express");
 const path = require("path");
 const apiRouter = require("./routes/api.js");
+const bodyparser = require("body-parser");
     
 // Skapa en instans av express
 const app = express();
+
+// Använd bodyparser
+app.use(bodyparser.urlencoded({ extended: false }));
+app.use(bodyparser.json());
     
 // Skapa statisk sökväg
 app.use(express.static(path.join(__dirname, 'public')));

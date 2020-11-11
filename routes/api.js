@@ -4,11 +4,11 @@ const fs = require("fs");
 const path = require("path");
 
 const rawCourses = fs.readFileSync(path.resolve(__dirname + "/../courses.json"));
-let courses = Array.from(JSON.parse(rawCourses).courses);
+let courses = JSON.parse(rawCourses).courses;
 const rawSubjects = fs.readFileSync(path.resolve(__dirname + "/../subjects.json"));
-let subjects = Array.from(JSON.parse(rawSubjects).subjects);
+let subjects = JSON.parse(rawSubjects).subjects;
 const rawMyCourses = fs.readFileSync(path.resolve(__dirname + "/../my-courses.json"));
-let myCourses = Array.from(JSON.parse(rawMyCourses).myCourses);
+let myCourses = JSON.parse(rawMyCourses).myCourses;
 
 function getSubject(name){
     return subjects.find(s => s.subjectCode == name)
@@ -74,10 +74,37 @@ router.get("/subjects/:id", (req, res) => {
 });
 
 router.post("/my/courses/add/", (req, res) => {
-    // if(myCourses.filter(c => c.courseCode == name.toLocaleUpperCase()).length == 0){
-    //     console.log("yeah");
-    // }
-    res.send({"yea":"jjas"});
+    
+    let newCourse = {
+        courseCode: req.body.courseCode,
+        completed: req.body.done
+    }
+
+    res.send(newCourse);
+});
+
+router.put("/my/courses/:id", (req, res) => {
+    const name = req.params.id;
+    const mc = myCourses.find(c => c.courseCode == name.toLocaleUpperCase());
+    if(mc != undefined){
+        mc.completed = req.body.done;
+        res.sendStatus(204);
+    } else {
+        res.sendStatus(404);
+    }
+});
+
+router.delete("/my/courses/:id", (req, res) => {
+    const name = req.params.id;
+    const mc = myCourses.find(c => c.courseCode == name.toLocaleUpperCase());
+    if(mc != undefined){
+        let index = myCourses.indexOf(mc)
+        delete mc;
+        myCourses.splice(index, 1);
+        res.sendStatus(204);
+    } else {
+        res.sendStatus(404);
+    }
 });
 
 module.exports = router;
