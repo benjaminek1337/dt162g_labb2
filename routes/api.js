@@ -92,8 +92,8 @@ router.post("/my/courses/add/", (req, res) => {
         else
             newCourse.completed = false;
         myCourses.myCourses.push(newCourse);
-        res.redirect("/my-courses.html");
     } 
+    res.redirect("/my-courses.html");
 });
 
 router.put("/my/courses/:id", (req, res) => {
