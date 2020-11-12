@@ -84,8 +84,7 @@
                         <td>{{ course.courseCode }}</td>
                         <td>
                             {{ course.name }} 
-                            <br> 
-                            Ämne: {{ course.subject }}
+                            <span id="subject">Ämne: {{ course.subject }}</span>
                         </td>
                         <td>{{ isCompleted(course.completed) }}</td>
                         <td>

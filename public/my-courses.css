@@ -64,14 +64,19 @@ tr:nth-child(odd) {
   background-color: #fff;
 }
 
-#courseNameRow:hover #subjectNameRow{
-  display:block;
+#subject{
   font-size: smaller;
   color:rgb(65, 65, 65)
 }
 
+#courseNameRow:hover #subjectNameRow{
+  display:block;
+}
+
 #subjectNameRow{
   display: none;
+  font-size: smaller;
+  color:rgb(65, 65, 65)
 }
 
 .center {
