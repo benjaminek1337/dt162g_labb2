@@ -59,6 +59,16 @@ tr:nth-child(odd) {
   background-color: #fff;
 }
 
+#courseNameRow:hover #subjectNameRow{
+  display:block;
+  font-size: smaller;
+  color:rgb(65, 65, 65)
+}
+
+#subjectNameRow{
+  display: none;
+}
+
 .center {
   text-align: center;
 }

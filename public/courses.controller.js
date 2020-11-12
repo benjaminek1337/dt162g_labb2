@@ -13,10 +13,6 @@ angular.module('myCoursesApp', []) // Läs 1 nedan
                 console.log(data);
                 // Läs 5 nedan
                 $scope.courses = data;
-                //$scope.myCourses = data.myCourses;
-                $scope.getCourseName = (courseCode) => {
-                    return data.find(c => c.courseCode === courseCode).name;
-                }
             },
                 function errorCallback(response) { // Läs 6 nedan
                     // called asynchronously if an error occurs

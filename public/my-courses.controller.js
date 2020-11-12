@@ -1,6 +1,5 @@
 // AngularJS-kod som vi går igenom mer i detalj i sektion 4. 
 // Fokusera på $scope i funktionen successCallBack i den här laborationen.
-console.log(window.location.pathname);
 angular.module('myCoursesApp', []) // Läs 1 nedan
     .controller('MyCoursesController', function MyCourseController($scope, $http) { // Läs 2 nedan
         $http.get("/api/my/courses") // Läs 3 nedan
@@ -16,6 +15,12 @@ angular.module('myCoursesApp', []) // Läs 1 nedan
                 $scope.getCourseName = (courseCode) => {
                     return data.find(c => c.courseCode === courseCode).name;
                 }
+                $scope.isCompleted = (completed) => {
+                    if(completed)
+                        return "Ja";
+                    else
+                        return "Nej";
+                }
             },
                 function errorCallback(response) { // Läs 6 nedan
                     // called asynchronously if an error occurs
@@ -23,6 +28,30 @@ angular.module('myCoursesApp', []) // Läs 1 nedan
                     console.log("Error reading kurser.json! response=" + JSON.stringify(response));
                 }
             );
+        $scope.removeCourse = (courseCode) => {
+            $http.delete("/api/my/courses/" + courseCode)
+                .then(function successCallBack(response) {
+                    if(response.status == 200)
+                        location.reload();
+                },
+                function errorCallback(response) {
+                    console.log("Error deleting course. Response=" + response);
+                }
+            );
+        }
+        $scope.updateCourse = (courseCode, completed) => {
+            let data = new Object();
+            data.done = !completed;
+            $http.put("/api/my/courses/" + courseCode, data)
+                .then(function successCallBack(response) {
+                    if(response.status == 200)
+                        location.reload();
+                },
+                function errorCallback(response) {
+                    console.log("Error updating course. Response=" + response.status);
+                }
+            );
+        }
     }
     );
 

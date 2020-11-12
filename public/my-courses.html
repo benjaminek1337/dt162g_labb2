@@ -41,6 +41,14 @@
     </header>
 
     <main>
+        <section class="add-course">
+            <form method="post" action="/api/my/courses/add">
+                <input type="text" name="courseCode" class="form-input" placeholder="Fyll i kurskod...">
+                <label for="done">Kurs avklarad?</label>
+                <input type="checkbox" name="done" class="form-chk">
+                <input type="submit" class="form-btn" value="Lägg till kurs">
+            </form>
+        </section>
         <section class="filter">
             <form>
                 <!-- Ytterligare sätt att "binda" data är att använda direktivet (data-)ng-model (en "two-way binding)").
@@ -58,6 +66,7 @@
                         <td>Kurskod</td>
                         <td class="course-name">Namn</td>
                         <td>Slutförd</td>
+                        <td>Ändra/Ta bort</td>
                     </tr>
                 </thead>
                 <tbody>
@@ -70,9 +79,15 @@
                     -->
                     <tr data-ng-repeat="course in myCourses | filter:filterQuery | orderBy: 'courseCode'">
                         <td>{{ course.courseCode }}</td>
-                        <td>{{ getCourseName(course.courseCode) }}</td>
-                        <td ng-if="course.completed">Ja</td>
-                        <td ng-if="!course.completed">Nej</td>
+                        <td id="courseNameRow">{{ course.name }}
+                            <span id="subjectNameRow">Ämne: {{ course.subject }}</span>
+                        </td>
+                        <td>{{ isCompleted(course.completed) }}</td>
+                        <td>
+                            <button id="btn-remove-course" ng-click="removeCourse(course.courseCode)">Ta bort</button>
+                          
+                            <button id="btn-completed-course" ng-click="updateCourse(course.courseCode, course.completed)">Avklarad/klarad</button>
+                        </td>
                     </tr>
                 </tbody>
             </table>
@@ -82,7 +97,8 @@
     <footer>
         <p class="center">
             Denna laboration läser data från filen
-            <a href="/api/my/courses" target="_blank">myCourses.json.</a>
+            <a href="/api/my/courses" target="_blank">myCourses.json</a>
+            som hämtas via ett fränt REST-api.
         </p>
     </footer>
 </body>

@@ -72,7 +72,9 @@
                     -->
                     <tr data-ng-repeat="course in courses | filter:filterQuery | orderBy: 'courseCode'">
                         <td>{{ course.courseCode }}</td>
-                        <td>{{ course.name }}</td>
+                        <td id="courseNameRow">{{ course.name }}
+                            <span id="subjectNameRow">Ämne: {{ course.subject }}</span>
+                        </td>
                         <td>{{ course.progression }}</td>
                         <td>{{ course.points }}</td>
                         <td class="center">{{ course.institutionCode }}</td>
@@ -85,7 +87,8 @@
     <footer>
         <p class="center">
             Denna laboration läser data från filen
-            <a href="/api/courses" target="_blank">courses.json.</a>
+            <a href="/api/courses" target="_blank">courses.json</a>
+            som hämtas via ett fränt REST-api.
         </p>
     </footer>
 </body>

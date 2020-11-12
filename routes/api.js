@@ -43,7 +43,6 @@ router.get("/my/courses", (req, res) => {
     let output = [];
     for (let i = 0; i < myCourses.myCourses.length; i++) {
         const mc = myCourses.myCourses[i];
-        console.log(mc);
         let course = getCourseByCourseCode(mc.courseCode);
         let subject = getSubjectBySubjectCode(course.subjectCode);
         course.completed = mc.completed;
@@ -83,11 +82,14 @@ router.get("/subjects/:id", (req, res) => {
 router.post("/my/courses/add/", (req, res) => {
     
     let newCourse = {
-        courseCode: req.body.courseCode,
-        completed: req.body.done
+        courseCode: req.body.courseCode
     }
+    if(req.body.done == "on")
+        newCourse.completed = true;
+    else
+        newCourse.completed = false;
     myCourses.myCourses.push(newCourse);
-    res.send(newCourse);
+    res.redirect("/my-courses.html");
 });
 
 router.put("/my/courses/:id", (req, res) => {
@@ -95,7 +97,7 @@ router.put("/my/courses/:id", (req, res) => {
     const mc = getMyCourseByCourseCode(name.toLocaleUpperCase());
     if(mc != undefined){
         mc.completed = req.body.done;
-        res.send(mc);
+        res.sendStatus(200);
     } else {
         res.sendStatus(404);
     }
@@ -106,9 +108,9 @@ router.delete("/my/courses/:id", (req, res) => {
     const mc = getMyCourseByCourseCode(name.toLocaleUpperCase());
     if(mc != undefined){
         let index = myCourses.myCourses.indexOf(mc)
-        delete mc;
         myCourses.myCourses.splice(index, 1);
-        res.sendStatus(204);
+        res.sendStatus(200);
+        
     } else {
         res.sendStatus(404);
     }
