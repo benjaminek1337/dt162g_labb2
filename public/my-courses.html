@@ -1,4 +1,4 @@
-﻿<!-- Sektion 1, JSON - för kursen JavaScriptbaserad webbutveckling -->
+﻿<!-- Sektion 2, JSON - för kursen JavaScriptbaserad webbutveckling -->
 <!DOCTYPE html>
 <html lang="sv">
 
@@ -8,31 +8,15 @@
     </title>
     <meta charset="utf-8" />
 
-    <!-- CSS -->
     <link rel="stylesheet" href="my-courses.css" type="text/css" />
 
-    <!-- JavaScript -->
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.0/angular.min.js"></script>
     <script src="my-courses.controller.js"></script>
 </head>
 
-<!-- data-ng-app anger att AngularJS ska vara aktiv i den här delen av sidan (innuti div-elementet) -->
-
-<!-- data-ng-controller anger att det är klassen MyCoursesController (som finns i filen myCourses.js)
-    som ska hantera beteendet för detta element (body-elementet).
-
-    Skillnaden mellan direktiven (directive) ng-xxx och data-ng-xxx är att vissa validerare
-    av HTML genrererar fel om bara ng-xxx används. Inga error ges om vi lägger till data- innan.
-    I övrigt är det inga som helst skillnader. Ha som vana att alltid använda data-ng-xxx.    
--->
-
-<body data-ng-app="myCoursesApp" data-ng-controller="MyCoursesController">
+<body data-ng-app="myCoursesApp" data-ng-controller="MyCoursesController" data-ng-init="getAllCourses()">
     <header>
-        <!-- Direktivet (data-)ng-bind kommer att sätta innerHTML för ett element till ett det värde
-        som finns i det $scope som aktuell controller tillhandahåller. -->
         <h1 class="center">Mina kurser</h1>
-
-        <!-- Ett annat sätt att "binda" data från $scope är att använda {{ }} -->
         <p>De kurser jag läst, eller läser</p>
 
         <nav>
@@ -44,20 +28,17 @@
         <section class="filter-add">
             <section class="filter">
                 <form>
-                    <!-- Ytterligare sätt att "binda" data är att använda direktivet (data-)ng-model (en "two-way binding)").
-                        Denna används på ett input-, select- eller textarea-element till $scope i vår controller. I det här
-                        fallet skapas $scope.filterQuery. -->
                     <label>Filtrera på:&nbsp;<input data-ng-model="filterQuery" class="form-control pull-right"
                             placeholder="Filter..." /></label>
                 </form>
             </section>
             <section class="add-course">
-                <form method="post" action="/api/my/courses/add">
+                <form>
                     <label for="courseCode">Lägg till kurs: </label>
-                    <input type="text" name="courseCode" class="form-input" placeholder="Ange kurskod...">
-                    <input type="checkbox" name="done" class="form-chk">
+                    <input type="text" ng-model="courseCode" class="form-input" placeholder="Ange kurskod...">
+                    <input type="checkbox" ng-model="done" class="form-chk">
                     <label for="done">Kurs avklarad?</label>
-                    <input type="submit" class="form-btn" value="Lägg till kurs">
+                    <button ng-click="addCourse()">Lägg till kurs</button>
                 </form>
             </section>
         </section>
@@ -73,13 +54,6 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <!-- Direktivet (data-)ng-repeat använder vi om vi vill "loopa" igenom en array eller objekt.
-                        Nedan kommer en rad i tabellen läggas till för varje kurs som finns i $scope.courses i vår
-                        controller. AngularJS tillhandahåller olika filter för att omvandla data åt oss. Vi lägger
-                        till ett filter genom att använda pipe-tecknet | följt av det filter som ska användas. Ett
-                        filter är 'filter' som väljer ut en delmängd från en array (i det här fallet $scope.courses)
-                        som matchar det vi anger i filterQuery.
-                    -->
                     <tr data-ng-repeat="course in myCourses | filter:filterQuery | orderBy: 'courseCode'">
                         <td>{{ course.courseCode }}</td>
                         <td>
