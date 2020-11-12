@@ -81,15 +81,19 @@ router.get("/subjects/:id", (req, res) => {
 
 router.post("/my/courses/add/", (req, res) => {
     
-    let newCourse = {
-        courseCode: req.body.courseCode
-    }
-    if(req.body.done == "on")
-        newCourse.completed = true;
-    else
-        newCourse.completed = false;
-    myCourses.myCourses.push(newCourse);
-    res.redirect("/my-courses.html");
+    const courseCodeFromBody = req.body.courseCode.toLocaleUpperCase();
+    if(getCourseByCourseCode(courseCodeFromBody) != undefined
+    && getMyCourseByCourseCode(courseCodeFromBody) == undefined){
+        let newCourse = {
+            courseCode: courseCodeFromBody
+        }
+        if(req.body.done == "on")
+            newCourse.completed = true;
+        else
+            newCourse.completed = false;
+        myCourses.myCourses.push(newCourse);
+        res.redirect("/my-courses.html");
+    } 
 });
 
 router.put("/my/courses/:id", (req, res) => {

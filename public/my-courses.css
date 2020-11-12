@@ -33,6 +33,11 @@ footer {
   color: #666;
 }
 
+.filter-add{
+  display: flex;
+  justify-content: space-between;
+}
+
 table {
   table-layout: auto;
   border-collapse: collapse;

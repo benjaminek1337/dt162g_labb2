@@ -41,22 +41,25 @@
     </header>
 
     <main>
-        <section class="add-course">
-            <form method="post" action="/api/my/courses/add">
-                <input type="text" name="courseCode" class="form-input" placeholder="Fyll i kurskod...">
-                <label for="done">Kurs avklarad?</label>
-                <input type="checkbox" name="done" class="form-chk">
-                <input type="submit" class="form-btn" value="Lägg till kurs">
-            </form>
-        </section>
-        <section class="filter">
-            <form>
-                <!-- Ytterligare sätt att "binda" data är att använda direktivet (data-)ng-model (en "two-way binding)").
-                    Denna används på ett input-, select- eller textarea-element till $scope i vår controller. I det här
-                    fallet skapas $scope.filterQuery. -->
-                <label>Filtrera på:&nbsp;<input data-ng-model="filterQuery" class="form-control pull-right"
-                        placeholder="Filter..." /></label>
-            </form>
+        <section class="filter-add">
+            <section class="filter">
+                <form>
+                    <!-- Ytterligare sätt att "binda" data är att använda direktivet (data-)ng-model (en "two-way binding)").
+                        Denna används på ett input-, select- eller textarea-element till $scope i vår controller. I det här
+                        fallet skapas $scope.filterQuery. -->
+                    <label>Filtrera på:&nbsp;<input data-ng-model="filterQuery" class="form-control pull-right"
+                            placeholder="Filter..." /></label>
+                </form>
+            </section>
+            <section class="add-course">
+                <form method="post" action="/api/my/courses/add">
+                    <label for="courseCode">Lägg till kurs: </label>
+                    <input type="text" name="courseCode" class="form-input" placeholder="Ange kurskod...">
+                    <input type="checkbox" name="done" class="form-chk">
+                    <label for="done">Kurs avklarad?</label>
+                    <input type="submit" class="form-btn" value="Lägg till kurs">
+                </form>
+            </section>
         </section>
 
         <sektion class="courses">
@@ -79,8 +82,10 @@
                     -->
                     <tr data-ng-repeat="course in myCourses | filter:filterQuery | orderBy: 'courseCode'">
                         <td>{{ course.courseCode }}</td>
-                        <td id="courseNameRow">{{ course.name }}
-                            <span id="subjectNameRow">Ämne: {{ course.subject }}</span>
+                        <td>
+                            {{ course.name }} 
+                            <br> 
+                            Ämne: {{ course.subject }}
                         </td>
                         <td>{{ isCompleted(course.completed) }}</td>
                         <td>
