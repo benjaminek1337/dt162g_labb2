@@ -17,6 +17,18 @@ function getMyCourseByCourseCode(code){
     return myCourses.myCourses.find(c => c.courseCode == code);
 }
 
+router.get("/files/courses", (req, res) => {
+    res.send(courses);
+});
+
+router.get("/files/my-courses", (req, res) => {
+    res.send(myCourses);
+});
+
+router.get("/files/subjects", (req, res) => {
+    res.send(subjects);
+});
+
 router.get("/courses", (req, res) => {
     let output = courses.courses;
 
