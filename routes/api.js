@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const fs = require("fs");
 const courses = require("../courses.json");
 const myCourses = require("../my-courses.json");
 const subjects = require("../subjects.json");
@@ -80,7 +81,8 @@ router.get("/subjects/:id", (req, res) => {
 });
 
 router.post("/my/courses/add/", (req, res) => {
-    console.log(req.body.done);
+    const filePath = "./my-courses.json";
+
     const courseCodeFromBody = req.body.courseCode.toLocaleUpperCase();
     if(getCourseByCourseCode(courseCodeFromBody) != undefined
     && getMyCourseByCourseCode(courseCodeFromBody) == undefined){
@@ -89,31 +91,44 @@ router.post("/my/courses/add/", (req, res) => {
             completed: req.body.done
         }
         myCourses.myCourses.push(newCourse);
-        res.sendStatus(200);
+        fs.writeFile(filePath, JSON.stringify(myCourses, null, 2), (err) => {
+            if (err) return console.log(err);
+            console.log("Writing to " + filePath);
+            res.sendStatus(200);
+        });
     } else {
-        res.sendStatus(404);
+        res.sendStatus(403);
     }
 });
 
 router.put("/my/courses/:id", (req, res) => {
+    const filePath = "./my-courses.json";
     const name = req.params.id;
     const mc = getMyCourseByCourseCode(name.toLocaleUpperCase());
     if(mc != undefined){
         mc.completed = req.body.done;
-        res.sendStatus(200);
+        fs.writeFile(filePath, JSON.stringify(myCourses, null, 2), (err) => {
+            if (err) return console.log(err);
+            console.log("Updating on " + filePath);
+            res.sendStatus(200);
+        });
     } else {
         res.sendStatus(404);
     }
 });
 
 router.delete("/my/courses/:id", (req, res) => {
+    const filePath = "./my-courses.json";
     const name = req.params.id;
     const mc = getMyCourseByCourseCode(name.toLocaleUpperCase());
     if(mc != undefined){
         let index = myCourses.myCourses.indexOf(mc)
         myCourses.myCourses.splice(index, 1);
-        res.sendStatus(200);
-        
+        fs.writeFile(filePath, JSON.stringify(myCourses, null, 2), (err) => {
+            if (err) return console.log(err);
+            console.log("Deleting from " + filePath);
+            res.sendStatus(200);
+        });
     } else {
         res.sendStatus(404);
     }
