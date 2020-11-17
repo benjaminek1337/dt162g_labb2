@@ -36,6 +36,26 @@ footer {
 .filter-add{
   display: flex;
   justify-content: space-between;
+  border-radius:2px;
+  margin-bottom:10px;
+  padding:10px;
+  background-color:  antiquewhite;
+}
+
+.add-course{
+  text-align: right;
+}
+
+.form-input{
+  border-radius: 2px;
+  border-width: 1px;
+  padding: 3px;
+  margin-right:10px;
+}
+
+.form-chk{
+  color: black;
+  padding:3px;
 }
 
 table {
@@ -54,6 +74,10 @@ tbody td {
 
 td {
   padding: 2px 10px;
+}
+
+.td-course-settings{
+  text-align: right;
 }
 
 tr:nth-child(even) {
@@ -79,6 +103,35 @@ tr:nth-child(odd) {
   color:rgb(65, 65, 65)
 }
 
+.btn-course-setting{
+  border-color: rgb(179, 179, 179);
+  border-radius: 2px;
+  border-width: 1px;
+  background-color:white;
+  padding-top:2px;
+  padding-bottom:2px;
+  width:80px;
+}
+
+.btn-course-setting:hover{
+  background-color: rgb(218, 238, 255);
+  cursor: pointer;
+}
+
+#btn-course-remove{
+  border-color: gray;
+  border-radius: 2px;
+  border-width: 1px;
+  background-color: rgb(231, 184, 184);
+  padding-top:2px;
+  padding-bottom:2px;
+}
+
+#btn-course-remove:hover{
+  background-color: rgb(255, 116, 116);
+  cursor: pointer;
+}
+
 .center {
   text-align: center;
 }
@@ -88,5 +141,5 @@ tr:nth-child(odd) {
 }
 
 .course-name {
-  width: 100%;
+  width: 67%;
 }

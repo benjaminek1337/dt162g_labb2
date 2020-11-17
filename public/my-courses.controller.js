@@ -4,19 +4,8 @@ angular.module('myCoursesApp', [])
         $scope.getAllCourses = () => {
             $http.get("/api/my/courses")
                 .then(function successCallback(response) {
-                   
                     const data = response.data;
-    
                     $scope.myCourses = data;
-                    $scope.getCourseName = (courseCode) => {
-                        return data.find(c => c.courseCode === courseCode).name;
-                    }
-                    $scope.isCompleted = (completed) => {
-                        if(completed)
-                            return "Ja";
-                        else
-                            return "Nej";
-                    }
                 },
                     function errorCallback(response) { 
                         console.log("Error reading kurser.json! response=" + JSON.stringify(response));
@@ -64,6 +53,12 @@ angular.module('myCoursesApp', [])
                     console.log("Error updating course. Response=" + JSON.stringify(response));
                 }
             );
+        };
+        $scope.isCompleted = (completed) => {
+            if(completed)
+                return true;
+            else
+                return false;
         };
     }
     );

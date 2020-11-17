@@ -28,7 +28,7 @@
         <section class="filter-add">
             <section class="filter">
                 <form>
-                    <label>Filtrera på:&nbsp;<input data-ng-model="filterQuery" class="form-control pull-right"
+                    <label>Sök kurs:&nbsp;<input data-ng-model="filterQuery" class="form-input form-control pull-right"
                             placeholder="Filter..." /></label>
                 </form>
             </section>
@@ -36,9 +36,10 @@
                 <form>
                     <label for="courseCode">Lägg till kurs: </label>
                     <input type="text" ng-model="courseCode" class="form-input" placeholder="Ange kurskod...">
+                    <label for="done">Kurs avklarad: </label>
                     <input type="checkbox" ng-model="done" class="form-chk">
-                    <label for="done">Kurs avklarad?</label>
-                    <button ng-click="addCourse()">Lägg till kurs</button>
+                    <br>
+                    <button class="btn-course-setting" ng-click="addCourse()">Lägg till</button>
                 </form>
             </section>
         </section>
@@ -50,7 +51,7 @@
                         <td>Kurskod</td>
                         <td class="course-name">Namn</td>
                         <td>Slutförd</td>
-                        <td>Ändra/Ta bort</td>
+                        <td class="td-course-settings">Ändra/Ta bort</td>
                     </tr>
                 </thead>
                 <tbody>
@@ -61,11 +62,14 @@
                             <br>
                             <span id="subject">Ämne: {{ course.subject }}</span>
                         </td>
-                        <td>{{ isCompleted(course.completed) }}</td>
-                        <td>
-                            <button id="btn-remove-course" ng-click="removeCourse(course.courseCode)">Ta bort</button>
-                          
-                            <button id="btn-completed-course" ng-click="updateCourse(course.courseCode, course.completed)">Avklarad/klarad</button>
+                        <td ng-if="isCompleted(course.completed)">Ja</td>
+                        <td ng-if="!isCompleted(course.completed)">Nej</td>
+                        <td class="td-course-settings">
+                            <button class="btn-course-setting" ng-click="updateCourse(course.courseCode, course.completed)">
+                                <span ng-if="isCompleted(course.completed)">Ej slutförd</span>
+                                <span ng-if="!isCompleted(course.completed)">Slutförd</span>
+                            </button>
+                            <button id="btn-course-remove" ng-click="removeCourse(course.courseCode)">Ta bort</button>
                         </td>
                     </tr>
                 </tbody>
