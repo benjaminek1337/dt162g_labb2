@@ -26,7 +26,7 @@ angular.module('myCoursesApp', [])
                         $scope.getAllCourses();
                 },
                 function errorCallback(response){
-                    if(response.status == 403) return alert("403... Appappapp. Lägg inte till kurser som jag redan läst, eller som miun inte har.")
+                    if(response.status == 403) return alert("403, forbidden request. Ajabajja... \nAnge kurskod som finns hos MIUN, och till kurs som jag inte redan läst")
                     console.log("Error adding course. Response" + JSON.stringify(response))
                 }
             );

@@ -94,7 +94,9 @@ router.get("/subjects/:id", (req, res) => {
 
 router.post("/my/courses/add/", (req, res) => {
     const filePath = "./my-courses.json";
-    const courseCodeFromBody = req.body.courseCode.toLocaleUpperCase();
+    let courseCodeFromBody
+    if(req.body.courseCode != undefined)
+        courseCodeFromBody = req.body.courseCode.toLocaleUpperCase();
     if(getCourseByCourseCode(courseCodeFromBody) != undefined
     && getMyCourseByCourseCode(courseCodeFromBody) == undefined){
         let newCourse = {
