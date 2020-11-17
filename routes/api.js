@@ -32,96 +32,116 @@ router.get("/files/subjects", (req, res) => {
 router.get("/courses", (req, res) => {
     let output = courses.courses;
 
-    for (let i = 0; i < output.length; i++) {
-        const course = output[i];
-        let sub = getSubjectBySubjectCode(course.subjectCode);
-        if(sub != undefined)
-            course.subject = sub.subject;
+    try{
+        for (let i = 0; i < output.length; i++) {
+            const course = output[i];
+            let sub = getSubjectBySubjectCode(course.subjectCode);
+            if(sub != undefined)
+                course.subject = sub.subject;
+        }
+        res.send(output);
+    } catch(error){
+        res.send(error);
     }
-    res.send(output);
 });
 
 router.get("/courses/:id", (req, res) => {
     const name = req.params.id;
     const course = getCourseByCourseCode(name.toLocaleUpperCase());
-    if(course != undefined){
+    try{
         let sub = getSubjectBySubjectCode(course.subjectCode).subject;
         if (sub != undefined)
             course.subject = sub;
         res.send(course);
-    } else {
+    } catch(error) {
         res.sendStatus(404);
     }
 });
 
 router.get("/my/courses", (req, res) => {
     let output = [];
-    for (let i = 0; i < myCourses.myCourses.length; i++) {
-        const mc = myCourses.myCourses[i];
-        let course = getCourseByCourseCode(mc.courseCode);
-        let subject = getSubjectBySubjectCode(course.subjectCode);
-        course.completed = mc.completed;
-        if(subject != undefined)
-            course.subject = subject.subject;
-        output.push(course);
+    try{
+        for (let i = 0; i < myCourses.myCourses.length; i++) {
+            const mc = myCourses.myCourses[i];
+            let course = getCourseByCourseCode(mc.courseCode);
+            let subject = getSubjectBySubjectCode(course.subjectCode);
+            course.completed = mc.completed;
+            if(subject != undefined)
+                course.subject = subject.subject;
+            output.push(course);
+        }
+        res.send(output);
+    } catch(error){
+        res.send(error);
     }
-    res.send(output);
+
 });
 
 router.get("/my/courses/:id", (req, res) => {
     const name = req.params.id;
     
-    let course = getCourseByCourseCode(name.toLocaleUpperCase());
-    let sub = getSubjectBySubjectCode(course.subjectCode);
-    let myCourse = getMyCourseByCourseCode(course.courseCode);
     try{
+        let course = getCourseByCourseCode(name.toLocaleUpperCase());
+        let sub = getSubjectBySubjectCode(course.subjectCode);
+        let myCourse = getMyCourseByCourseCode(course.courseCode);
         if(sub != undefined)
             course.subject = sub.subject;
         course.completed = myCourse.completed;
         res.send(course);
     }
     catch(error){
-        res.sendStatus(404)
+        res.sendStatus(404);
     }
 });
 
 router.get("/subjects", (req, res) => {
-    res.send(subjects.subjects);
+    try {
+        res.send(subjects.subjects);
+    } catch (error) {
+        res.send(error);
+    }
 });
 
 router.get("/subjects/:id", (req, res) => {
     const name = req.params.id;
-    res.send(getSubjectBySubjectCode(name.toLocaleUpperCase()));
+    try {   
+        res.send(getSubjectBySubjectCode(name.toLocaleUpperCase()));
+    } catch (error) {
+        res.sendStatus(404);
+    }
+
 });
 
 router.post("/my/courses/add/", (req, res) => {
     const filePath = "./my-courses.json";
-    let courseCodeFromBody
-    if(req.body.courseCode != undefined)
-        courseCodeFromBody = req.body.courseCode.toLocaleUpperCase();
-    if(getCourseByCourseCode(courseCodeFromBody) != undefined
-    && getMyCourseByCourseCode(courseCodeFromBody) == undefined){
-        let newCourse = {
-            courseCode: courseCodeFromBody,
-            completed: req.body.done
+    try{
+        const courseCodeFromBody = req.body.courseCode.toLocaleUpperCase();
+        if(getCourseByCourseCode(courseCodeFromBody) != undefined
+        && getMyCourseByCourseCode(courseCodeFromBody) == undefined){
+            let newCourse = {
+                courseCode: courseCodeFromBody,
+                completed: req.body.done
+            }
+            myCourses.myCourses.push(newCourse);
+            fs.writeFile(filePath, JSON.stringify(myCourses, null, 2), (error) => {
+                if (error) 
+                    return console.log(error);
+                console.log("Writing to " + filePath);
+                res.sendStatus(200);
+            });
+        } else {
+            res.sendStatus(403);
         }
-        myCourses.myCourses.push(newCourse);
-        fs.writeFile(filePath, JSON.stringify(myCourses, null, 2), (error) => {
-            if (error) 
-                return console.log(error);
-            console.log("Writing to " + filePath);
-            res.sendStatus(200);
-        });
-    } else {
-        res.sendStatus(403);
+    } catch(error){
+        res.sendStatus(404);
     }
 });
 
 router.put("/my/courses/:id", (req, res) => {
     const filePath = "./my-courses.json";
     const name = req.params.id;
-    const myCourse = getMyCourseByCourseCode(name.toLocaleUpperCase());
-    if(myCourse != undefined){
+    try{
+        const myCourse = getMyCourseByCourseCode(name.toLocaleUpperCase());
         myCourse.completed = req.body.done;
         fs.writeFile(filePath, JSON.stringify(myCourses, null, 2), (error) => {
             if (error) 
@@ -129,7 +149,7 @@ router.put("/my/courses/:id", (req, res) => {
             console.log("Updating on " + filePath);
             res.sendStatus(200);
         });
-    } else {
+    } catch(error) {
         res.sendStatus(404);
     }
 });
@@ -137,8 +157,8 @@ router.put("/my/courses/:id", (req, res) => {
 router.delete("/my/courses/:id", (req, res) => {
     const filePath = "./my-courses.json";
     const name = req.params.id;
-    const myCourse = getMyCourseByCourseCode(name.toLocaleUpperCase());
-    if(myCourse != undefined){
+    try{
+        const myCourse = getMyCourseByCourseCode(name.toLocaleUpperCase());
         const index = myCourses.myCourses.indexOf(myCourse)
         myCourses.myCourses.splice(index, 1);
         fs.writeFile(filePath, JSON.stringify(myCourses, null, 2), (error) => {
@@ -147,7 +167,7 @@ router.delete("/my/courses/:id", (req, res) => {
             console.log("Deleting from " + filePath);
             res.sendStatus(200);
         });
-    } else {
+    } catch(error) {
         res.sendStatus(404);
     }
 });
