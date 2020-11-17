@@ -45,7 +45,9 @@ router.get("/courses/:id", (req, res) => {
     const name = req.params.id;
     const course = getCourseByCourseCode(name.toLocaleUpperCase());
     if(course != undefined){
-        course.subject = getSubjectBySubjectCode(course.subjectCode).subject;
+        let sub = getSubjectBySubjectCode(course.subjectCode).subject;
+        if (sub != undefined)
+            course.subject = sub;
         res.send(course);
     } else {
         res.sendStatus(404);
