@@ -3,7 +3,6 @@ angular.module('myCoursesApp', [])
         $http.get("/api/courses")
             .then(function successCallback(response) {
                 const data = response.data;
-                console.log(data);
                 $scope.courses = data;
             },
                 function errorCallback(response) { 

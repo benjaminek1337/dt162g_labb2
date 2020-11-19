@@ -45,7 +45,7 @@ router.get("/courses", (req, res) => {
         }
         res.send(output);
     } catch(error){
-        res.send(error);
+        res.status(400).send(error);
     }
 });
 
@@ -58,7 +58,7 @@ router.get("/courses/:id", (req, res) => {
             course.subject = sub;
         res.send(course);
     } catch(error) {
-        res.sendStatus(404);
+        res.status(404).send(error);
     }
 });
 
@@ -94,7 +94,7 @@ router.get("/my/courses/:id", (req, res) => {
         res.send(course);
     }
     catch(error){
-        res.sendStatus(404);
+        res.status(404).send(error);
     }
 });
 
@@ -102,7 +102,7 @@ router.get("/subjects", (req, res) => {
     try {
         res.send(subjects.subjects);
     } catch (error) {
-        res.send(error);
+        res.status(400).send(error);
     }
 });
 
@@ -111,7 +111,7 @@ router.get("/subjects/:id", (req, res) => {
     try {   
         res.send(getSubjectBySubjectCode(name.toLocaleUpperCase()));
     } catch (error) {
-        res.sendStatus(404);
+        res.status(404).send(error);
     }
 
 });
@@ -133,11 +133,9 @@ router.post("/my/courses/add/", (req, res) => {
                 console.log("Writing to " + filePath);
                 res.sendStatus(200);
             });
-        } else {
-            res.sendStatus(403);
         }
     } catch(error){
-        res.sendStatus(404);
+        res.status(400).send(error);
     }
 });
 
@@ -154,7 +152,7 @@ router.put("/my/courses/:id", (req, res) => {
             res.sendStatus(200);
         });
     } catch(error) {
-        res.sendStatus(404);
+        res.status(404).send(error);
     }
 });
 
@@ -172,7 +170,7 @@ router.delete("/my/courses/:id", (req, res) => {
             res.sendStatus(200);
         });
     } catch(error) {
-        res.sendStatus(404);
+        res.status(404).send(error);
     }
 });
 

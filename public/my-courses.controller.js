@@ -5,7 +5,6 @@ angular.module('myCoursesApp', [])
             $http.get("/api/my/courses")
                 .then(function successCallback(response) {
                     const data = response.data;
-                    console.log(data);
                     $scope.myCourses = data;
                 },
                 function errorCallback(response) { 
@@ -27,11 +26,8 @@ angular.module('myCoursesApp', [])
                         $scope.getAllCourses();
                 },
                 function errorCallback(response){
-                    if(response.status == 403) 
-                        return alert("403, forbidden request. Ajabajja... \nAnge kurskod som finns hos MIUN, och till kurs som jag inte redan läst")
-                    else if(response.status == 404){
-                        return alert("404, hittade ingen kurs att lägga till")
-                    }
+                    console.log("Error adding course. Response = " + JSON.stringify(response))
+                    return alert("Nu försökte du lägga till en kurs jag redan läst \neller så matade du in felaktig kurskod");
                 }
             );
         };
@@ -42,7 +38,7 @@ angular.module('myCoursesApp', [])
                         $scope.getAllCourses();
                 },
                 function errorCallback(response) {
-                    console.log("Error deleting course. Response=" + JSON.stringify(response));
+                    console.log("Error deleting course. Response= " + JSON.stringify(response));
                 }
             );
         };
@@ -54,7 +50,7 @@ angular.module('myCoursesApp', [])
                         $scope.getAllCourses();
                 },
                 function errorCallback(response) {
-                    console.log("Error updating course. Response=" + JSON.stringify(response));
+                    console.log("Error updating course. Response= " + JSON.stringify(response));
                 }
             );
         };
