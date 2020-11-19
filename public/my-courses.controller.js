@@ -5,11 +5,12 @@ angular.module('myCoursesApp', [])
             $http.get("/api/my/courses")
                 .then(function successCallback(response) {
                     const data = response.data;
+                    console.log(data);
                     $scope.myCourses = data;
                 },
-                    function errorCallback(response) { 
-                        console.log("Error reading kurser.json! response=" + JSON.stringify(response));
-                    }
+                function errorCallback(response) { 
+                    console.log("Error reading kurser.json! response= " + JSON.stringify(response));
+                }
             );
         };
         $scope.addCourse = () => {

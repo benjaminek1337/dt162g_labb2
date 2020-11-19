@@ -4,9 +4,10 @@ const fs = require("fs");
 const jsonfile = require("jsonfile");
 
 const courses = jsonfile.readFileSync("courses.json");
-const myCourses = jsonfile.readFileSync("my-courses.json");
+const rawmyCourses = jsonfile.readFileSync("my-courses.json");
 const subjects = jsonfile.readFileSync("subjects.json");
 
+const myCourses = JSON.parse(rawmyCourses);
 
 function getSubjectBySubjectCode(code){
     return subjects.subjects.find(s => s.subjectCode == code);
@@ -75,7 +76,7 @@ router.get("/my/courses", (req, res) => {
         }
         res.send(output);
     } catch(error){
-        res.send(error);
+        res.status(400).send(error);
     }
 
 });
