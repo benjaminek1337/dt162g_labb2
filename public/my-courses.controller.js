@@ -13,9 +13,6 @@ angular.module('myCoursesApp', [])
             );
         };
         $scope.addCourse = () => {
-            if ($scope.done != true){
-                $scope.done = false;
-            }
             const data = {
                 courseCode: $scope.courseCode,
                 done: ($scope.done != true) ? false : true
