@@ -134,6 +134,9 @@ router.post("/my/courses/add/", (req, res) => {
                 res.sendStatus(200);
             });
         }
+        else{
+            return res.status(400).send(error);
+        }
     } catch(error){
         res.status(400).send(error);
     }

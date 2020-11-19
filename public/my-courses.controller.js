@@ -18,7 +18,7 @@ angular.module('myCoursesApp', [])
             }
             const data = {
                 courseCode: $scope.courseCode,
-                done: $scope.done
+                done: ($scope.done != true) ? false : true
             };
             $http.post("/api/my/courses/add", data)
                 .then(function successCallback(response) {
