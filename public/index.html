@@ -47,7 +47,7 @@
                     <tr data-ng-repeat="course in courses | filter:filterQuery | orderBy: 'courseCode'">
                         <td>{{ course.courseCode }}</td>
                         <td id="courseNameRow">{{ course.name }}
-                            <span id="subjectNameRow">Ämne: {{ course.subject }}</span>
+                            <span id="subjectNameRow">Ämne: {{ course.subjects[0].subject }}</span>
                         </td>
                         <td>{{ course.progression }}</td>
                         <td>{{ course.points }}</td>
@@ -60,10 +60,10 @@
 
     <footer>
         <p class="center">
-            Denna laboration läser och sammanställer data från filerna
+            Denna laboration läser och sammanställer data från, och skriver till filerna
             <a href="/api/files/courses" target="_blank">courses.json</a>,
             <a href="/api/files/my-courses" target="_blank">myCourses.json</a> och
-            <a href="/api/files/subjects" target="_blank">subjects.json</a>
+            <a href="/api/subjects" target="_blank">subjects.json</a>
             som hämtas via ett fränt REST-api.
         </p>
     </footer>

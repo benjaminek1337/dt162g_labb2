@@ -1,177 +1,238 @@
 const express = require("express");
 const router = express.Router();
-const fs = require("fs");
-const jsonfile = require("jsonfile");
 
-const courses = jsonfile.readFileSync("courses.json");
-const myCourses = jsonfile.readFileSync("my-courses.json");
-const subjects = jsonfile.readFileSync("subjects.json");
-
-function getSubjectBySubjectCode(code){
-    return subjects.subjects.find(s => s.subjectCode == code);
-}
-
-function getCourseByCourseCode(code){
-    return courses.courses.find(c => c.courseCode == code);
-}
-
-function getMyCourseByCourseCode(code){
-    return myCourses.myCourses.find(c => c.courseCode == code);
-}
+const Courses = require("../models/courses.js");
+const MyCourses = require("../models/my-courses.js");
+const Subjects = require("../models/subjects.js");
 
 router.get("/files/courses", (req, res) => {
-    res.send(courses);
+    Courses.find((err, Courses) => {
+        if(err){
+            return res.send("Error: " + err);
+        }
+        res.json(Courses);
+    } )
 });
 
 router.get("/files/my-courses", (req, res) => {
-    res.send(myCourses);
-});
-
-router.get("/files/subjects", (req, res) => {
-    res.send(subjects);
+    MyCourses.find((err, MyCourses) => {
+        if(err){
+            return res.send("Error: " + err);
+        }
+        res.json(MyCourses);
+    });
 });
 
 router.get("/courses", (req, res) => {
-    let output = courses.courses;
-
     try{
-        for (let i = 0; i < output.length; i++) {
-            const course = output[i];
-            let sub = getSubjectBySubjectCode(course.subjectCode);
-            if(sub != undefined)
-                course.subject = sub.subject;
-        }
-        res.send(output);
-    } catch(error){
-        res.status(400).send(error);
+        Courses.aggregate([
+            {
+                "$lookup": {
+                    "from": "subjects",
+                    "localField": "subjectCode",
+                    "foreignField": "subjectCode",
+                    "as": "subjects"
+                }
+            }
+        ]).exec((err, data) => {
+            if (err) {
+                return res.status(400).send("Error: " + err)
+            } else if (data.length == 0) {
+                return res.status(404).send("Not found: " + name)
+            }
+            res.json(data);
+        });
+    } catch(error) {
+        res.status(500).send(error);
     }
 });
 
 router.get("/courses/:id", (req, res) => {
-    const name = req.params.id;
-    const course = getCourseByCourseCode(name.toLocaleUpperCase());
+    const name = req.params.id.toLocaleUpperCase();
     try{
-        let sub = getSubjectBySubjectCode(course.subjectCode).subject;
-        if (sub != undefined)
-            course.subject = sub;
-        res.send(course);
+        Courses.aggregate([
+            {$match: {courseCode : name}},
+            {
+                "$lookup": {
+                    "from": "subjects",
+                    "localField": "subjectCode",
+                    "foreignField": "subjectCode",
+                    "as": "subjects"
+                }
+            }
+        ]).exec((err, data) => {
+            if (err) {
+                return res.status(400).send("Error: " + err)
+            } else if (data.length == 0) {
+                return res.status(404).send("Not found: " + name)
+            }
+            res.json(data);
+        });
     } catch(error) {
-        res.status(404).send(error);
+        res.status(500).send(error);
     }
 });
 
 router.get("/my/courses", (req, res) => {
-    let output = [];
     try{
-        for (let i = 0; i < myCourses.myCourses.length; i++) {
-            const mc = myCourses.myCourses[i];
-            let course = getCourseByCourseCode(mc.courseCode);
-            let subject = getSubjectBySubjectCode(course.subjectCode);
-            course.completed = mc.completed;
-            if(subject != undefined)
-                course.subject = subject.subject;
-            output.push(course);
-        }
-        res.send(output);
+        MyCourses.aggregate([
+            {
+                "$lookup": {
+                    "from": "courses",
+                    "localField": "courseCode",
+                    "foreignField": "courseCode",
+                    "as": "courses"
+                }
+            },
+            { "$unwind": "$courses" },
+            {
+                "$lookup": {
+                    "from": "subjects",
+                    "localField": "courses.subjectCode",
+                    "foreignField": "subjectCode",
+                    "as": "subject"
+                }
+            }
+        ]).exec((err, data)=>{
+            if (err) {
+                return res.status(400).send("Error: " + err)
+            }
+            res.json(data);
+      });
     } catch(error){
-        res.status(400).send(error);
+        res.status(500).send(error);
     }
 
 });
 
 router.get("/my/courses/:id", (req, res) => {
-    const name = req.params.id;
+    const name = req.params.id.toLocaleUpperCase();
     
     try{
-        let course = getCourseByCourseCode(name.toLocaleUpperCase());
-        let sub = getSubjectBySubjectCode(course.subjectCode);
-        let myCourse = getMyCourseByCourseCode(course.courseCode);
-        if(sub != undefined)
-            course.subject = sub.subject;
-        course.completed = myCourse.completed;
-        res.send(course);
+        MyCourses.aggregate([
+            { $match: {courseCode:name}},
+            {
+                "$lookup": {
+                    "from": "courses",
+                    "localField": "courseCode",
+                    "foreignField": "courseCode",
+                    "as": "courses"
+                }
+            },
+            { "$unwind": "$courses" },
+            {
+                "$lookup": {
+                    "from": "subjects",
+                    "localField": "courses.subjectCode",
+                    "foreignField": "subjectCode",
+                    "as": "subject"
+                }
+            }
+        ]).exec((err, data)=>{
+            if (err) {
+                return res.status(400).send("Error: " + err)
+            } else if (data.length == 0) {
+                return res.status(404).send("Not found: " + name)
+            }
+            res.json(data);
+      });
+
     }
     catch(error){
-        res.status(404).send(error);
+        res.status(500).send(error);
     }
 });
 
 router.get("/subjects", (req, res) => {
-    try {
-        res.send(subjects.subjects);
-    } catch (error) {
-        res.status(400).send(error);
-    }
+    Subjects.find((err, Subjects) => {
+        if(err){
+            return res.send("Error: " + err);
+        }
+        res.json(Subjects);
+    });
 });
 
 router.get("/subjects/:id", (req, res) => {
-    const name = req.params.id;
-    try {   
-        res.send(getSubjectBySubjectCode(name.toLocaleUpperCase()));
+    const name = req.params.id.toLocaleUpperCase();
+    try {
+        Subjects.findOne({ subjectCode: name }, (err, subject) => {
+            if(err){
+                return res.send("Error: " + err);
+            } else if(!subject){
+                return res.status(404).send("Error, subject not found")
+            }
+            res.send(subject);
+        })
     } catch (error) {
-        res.status(404).send(error);
+        res.status(500).send("Error: " + error);
     }
 
 });
 
 router.post("/my/courses/add/", (req, res) => {
-    const filePath = "./my-courses.json";
+    const myCourse = new MyCourses();
     try{
         const courseCodeFromBody = req.body.courseCode.toLocaleUpperCase();
-        if(getCourseByCourseCode(courseCodeFromBody) != undefined
-        && getMyCourseByCourseCode(courseCodeFromBody) == undefined){
-            let newCourse = {
-                courseCode: courseCodeFromBody,
-                completed: req.body.done
+        MyCourses.find({courseCode: courseCodeFromBody}, (err, data) => {
+            if(err){
+                return res.status(500).send("Error: " + err);
+            } else if(data.length != 0){
+                return res.status(403).send("Error: " + err);
             }
-            myCourses.myCourses.push(newCourse);
-            fs.writeFile(filePath, JSON.stringify(myCourses, null, 2), (error) => {
-                if (error) 
-                    return console.log(error);
-                console.log("Writing to " + filePath);
-                res.sendStatus(200);
+            Courses.find({courseCode: courseCodeFromBody}, (err, data) => {
+                if(err){
+                    return res.status(500).send("Error: " + err);
+                } else if (data.length == 0){
+                    return res.status(404).send("Error" + err);
+                } else {
+                    myCourse.courseCode = courseCodeFromBody;
+                    myCourse.completed = req.body.done;
+                    myCourse.save((err => {
+                        return res.send("Some database error, response: " + err);
+                    }));
+                    console.log("Adding course: " + courseCodeFromBody);
+                }
             });
-        }
-        else{
-            return res.status(400).send(error);
-        }
+        
+            //res.sendStatus(200);
+        });        
     } catch(error){
-        res.status(400).send(error);
+        res.status(500).send(error);
     }
 });
 
 router.put("/my/courses/:id", (req, res) => {
-    const filePath = "./my-courses.json";
-    const name = req.params.id;
     try{
-        const myCourse = getMyCourseByCourseCode(name.toLocaleUpperCase());
-        myCourse.completed = req.body.done;
-        fs.writeFile(filePath, JSON.stringify(myCourses, null, 2), (error) => {
-            if (error) 
-                return console.log(error);
-            console.log("Updating on " + filePath);
-            res.sendStatus(200);
-        });
+        const name = req.params.id.toLocaleUpperCase();
+        MyCourses.findOneAndUpdate({ courseCode: name }, 
+            {$set:{completed: req.body.done}},
+            {new: true}, (err, data) => {
+            if(err){
+                return res.status(500).send("Error: " + err);
+            }
+            console.log("Updated: " + name);
+            res.status(200).send("Updated");
+        })
+
     } catch(error) {
-        res.status(404).send(error);
+        res.status(500).send(error);
     }
 });
 
 router.delete("/my/courses/:id", (req, res) => {
-    const filePath = "./my-courses.json";
-    const name = req.params.id;
+    const id = req.params.id;
     try{
-        const myCourse = getMyCourseByCourseCode(name.toLocaleUpperCase());
-        const index = myCourses.myCourses.indexOf(myCourse)
-        myCourses.myCourses.splice(index, 1);
-        fs.writeFile(filePath, JSON.stringify(myCourses, null, 2), (error) => {
-            if (error) 
-                return console.log(error);
-            console.log("Deleting from " + filePath);
-            res.sendStatus(200);
+        MyCourses.deleteOne({
+            courseCode: id
+        }, (err, MyCourses) => {
+            if(err){
+                return res.status(400).send("Error: " + err);
+            }
+            res.status(200).send("Raderat kurs: " + id);
+            console.log("Removing course: " + id);
         });
     } catch(error) {
-        res.status(404).send(error);
+        res.status(500).send(error);
     }
 });
 
