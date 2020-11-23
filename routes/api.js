@@ -4,10 +4,8 @@ const fs = require("fs");
 const jsonfile = require("jsonfile");
 
 const courses = jsonfile.readFileSync("courses.json");
-const rawmyCourses = jsonfile.readFileSync("my-courses.json");
+const myCourses = jsonfile.readFileSync("my-courses.json");
 const subjects = jsonfile.readFileSync("subjects.json");
-
-const myCourses = JSON.parse(rawmyCourses);
 
 function getSubjectBySubjectCode(code){
     return subjects.subjects.find(s => s.subjectCode == code);
@@ -127,7 +125,7 @@ router.post("/my/courses/add/", (req, res) => {
                 completed: req.body.done
             }
             myCourses.myCourses.push(newCourse);
-            jsonfile.writeFile(filePath, JSON.stringify(myCourses, null, 2), (error) => {
+            fs.writeFile(filePath, JSON.stringify(myCourses, null, 2), (error) => {
                 if (error) 
                     return console.log(error);
                 console.log("Writing to " + filePath);
@@ -148,7 +146,7 @@ router.put("/my/courses/:id", (req, res) => {
     try{
         const myCourse = getMyCourseByCourseCode(name.toLocaleUpperCase());
         myCourse.completed = req.body.done;
-        jsonfile.writeFile(filePath, JSON.stringify(myCourses, null, 2), (error) => {
+        fs.writeFile(filePath, JSON.stringify(myCourses, null, 2), (error) => {
             if (error) 
                 return console.log(error);
             console.log("Updating on " + filePath);
@@ -166,7 +164,7 @@ router.delete("/my/courses/:id", (req, res) => {
         const myCourse = getMyCourseByCourseCode(name.toLocaleUpperCase());
         const index = myCourses.myCourses.indexOf(myCourse)
         myCourses.myCourses.splice(index, 1);
-        jsonfile.writeFile(filePath, JSON.stringify(myCourses, null, 2), (error) => {
+        fs.writeFile(filePath, JSON.stringify(myCourses, null, 2), (error) => {
             if (error) 
                 return console.log(error);
             console.log("Deleting from " + filePath);
