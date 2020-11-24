@@ -36,9 +36,9 @@ router.get("/courses", (req, res) => {
             }
         ]).exec((err, data) => {
             if (err) {
-                return res.status(400).send("Error: " + err)
+                return res.status(400).send("Error: " + err);
             } else if (data.length == 0) {
-                return res.status(404).send("Not found: " + name)
+                return res.status(404).send("Not found");
             }
             res.json(data);
         });
@@ -62,9 +62,9 @@ router.get("/courses/:id", (req, res) => {
             }
         ]).exec((err, data) => {
             if (err) {
-                return res.status(400).send("Error: " + err)
+                return res.status(400).send("Error: " + err);
             } else if (data.length == 0) {
-                return res.status(404).send("Not found: " + name)
+                return res.status(404).send("Not found: " + name);
             }
             res.json(data);
         });
@@ -95,7 +95,7 @@ router.get("/my/courses", (req, res) => {
             }
         ]).exec((err, data)=>{
             if (err) {
-                return res.status(400).send("Error: " + err)
+                return res.status(400).send("Error: " + err);
             }
             res.json(data);
       });
@@ -130,9 +130,9 @@ router.get("/my/courses/:id", (req, res) => {
             }
         ]).exec((err, data)=>{
             if (err) {
-                return res.status(400).send("Error: " + err)
+                return res.status(400).send("Error: " + err);
             } else if (data.length == 0) {
-                return res.status(404).send("Not found: " + name)
+                return res.status(404).send("Not found: " + name);
             }
             res.json(data);
       });
@@ -159,7 +159,7 @@ router.get("/subjects/:id", (req, res) => {
             if(err){
                 return res.send("Error: " + err);
             } else if(!subject){
-                return res.status(404).send("Error, subject not found")
+                return res.status(404).send("Error, subject not found");
             }
             res.send(subject);
         })

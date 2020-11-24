@@ -4,8 +4,8 @@ const apiRouter = require("./routes/api.js");
 const bodyparser = require("body-parser");
 const mongoose = require("mongoose");
 
-// Anslut till lokal mongo
-mongoose.connect("mongodb://localhost:27017/my-courses", { 
+// Anslut till Mongo från yttre rymden (Atlas)
+mongoose.connect("mongodb+srv://kelsos_admin:qweasd@dt162g.2njbq.mongodb.net/my-courses?retryWrites=true&w=majority", { 
     useNewUrlParser: true,
     useCreateIndex: true, 
     useUnifiedTopology: true 
