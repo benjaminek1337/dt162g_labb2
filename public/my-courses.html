@@ -60,7 +60,7 @@
                         <td>
                             {{ course.courses.name }} 
                             <br>
-                            <span id="subject">Ämne: {{ course.subject[0].subject }}</span>
+                            <span id="subject">Ämne: {{ course.subject.subject }}</span>
                         </td>
                         <td ng-if="isCompleted(course.completed)">Ja</td>
                         <td ng-if="!isCompleted(course.completed)">Nej</td>

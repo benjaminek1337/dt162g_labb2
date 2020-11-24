@@ -47,7 +47,7 @@
                     <tr data-ng-repeat="course in courses | filter:filterQuery | orderBy: 'courseCode'">
                         <td>{{ course.courseCode }}</td>
                         <td id="courseNameRow">{{ course.name }}
-                            <span id="subjectNameRow">Ämne: {{ course.subjects[0].subject }}</span>
+                            <span id="subjectNameRow">Ämne: {{ course.subject.subject }}</span>
                         </td>
                         <td>{{ course.progression }}</td>
                         <td>{{ course.points }}</td>

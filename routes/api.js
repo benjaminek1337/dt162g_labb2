@@ -31,7 +31,19 @@ router.get("/courses", (req, res) => {
                     "from": "subjects",
                     "localField": "subjectCode",
                     "foreignField": "subjectCode",
-                    "as": "subjects"
+                    "as": "subject"
+                }
+            },
+            { "$unwind": "$subject" },
+            {
+                "$project" : {
+                    "courseCode": 1,
+                    "subjectCode": 1,
+                    "level": 1,
+                    "name": 1,
+                    "points": 1,
+                    "institutionCode": 1,
+                    "subject.subject": 1
                 }
             }
         ]).exec((err, data) => {
@@ -51,13 +63,25 @@ router.get("/courses/:id", (req, res) => {
     const name = req.params.id.toLocaleUpperCase();
     try{
         Courses.aggregate([
-            {$match: {courseCode : name}},
+            { $match: {courseCode:name}},
             {
                 "$lookup": {
                     "from": "subjects",
                     "localField": "subjectCode",
                     "foreignField": "subjectCode",
-                    "as": "subjects"
+                    "as": "subject"
+                }
+            },
+            { "$unwind": "$subject" },
+            {
+                "$project" : {
+                    "courseCode": 1,
+                    "subjectCode": 1,
+                    "level": 1,
+                    "name": 1,
+                    "points": 1,
+                    "institutionCode": 1,
+                    "subject.subject": 1
                 }
             }
         ]).exec((err, data) => {
@@ -91,6 +115,20 @@ router.get("/my/courses", (req, res) => {
                     "localField": "courses.subjectCode",
                     "foreignField": "subjectCode",
                     "as": "subject"
+                }
+            },
+            { "$unwind": "$subject" },
+            {
+                "$project": {
+                    "courseCode": 1,
+                    "completed": 1,
+                    "courses.name":1,
+                    "courses.courseCode": 1,
+                    "courses.subjectCode": 1,
+                    "courses.level": 1,
+                    "courses.points": 1,
+                    "courses.institutionCode": 1,
+                    "subject.subject" : 1
                 }
             }
         ]).exec((err, data)=>{
@@ -126,6 +164,20 @@ router.get("/my/courses/:id", (req, res) => {
                     "localField": "courses.subjectCode",
                     "foreignField": "subjectCode",
                     "as": "subject"
+                }
+            },
+            { "$unwind": "$subject" },
+            {
+                "$project": {
+                    "courseCode": 1,
+                    "completed": 1,
+                    "courses.name":1,
+                    "courses.courseCode": 1,
+                    "courses.subjectCode": 1,
+                    "courses.level": 1,
+                    "courses.points": 1,
+                    "courses.institutionCode": 1,
+                    "subject.subject" : 1
                 }
             }
         ]).exec((err, data)=>{
